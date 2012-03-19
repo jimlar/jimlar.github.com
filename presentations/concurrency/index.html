@@ -38,6 +38,38 @@
 
     <section>
         <section>
+            <h2>Why should I care?</h2>
+            <blockquote>I'm only building a web site, the AppServer&#8482; manages concurrency for me.</blockquote>
+        </section>
+        <section>
+            <h2>How do you tune your application?</h2>
+            <ul>
+                <li>How many threads/processes should the web server have?</li>
+                <li>How many threads/processes should the app server have?</li>
+                <li>How many connections connection pool?</li>
+            </ul>
+        </section>
+        <section>
+            <h2>CPU or I/O bound?</h2>
+            <br/>
+            <h3>threads = #cores / (1 - blocking coefficient)</h3>
+            <ul class="">
+                <li>100% CPU-bound -> blocking coefficient == 0</li>
+                <li>100% IO-bound -> blocking coefficient == 1</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Concurrent integrations</h2>
+            <ul>
+                <li>Decreases page load time</li>
+                <li>Helps when some systems are slow</li>
+                <li>May lead to cleaner code, more decoupling</li>
+            </ul>
+        </section>
+    </section>
+
+    <section>
+        <section>
             <h2>Mutability</h2>
             <ul>
                 <li>Shared mutability</li>
