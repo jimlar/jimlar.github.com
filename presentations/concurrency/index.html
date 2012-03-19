@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../lib/revealjs/css/reset.css">
     <link rel="stylesheet" href="../lib/revealjs/css/main.css">
     <link rel="stylesheet" href="../lib/revealjs/lib/zenburn.css">
+    <link rel="stylesheet" href="../lib/presentation.css">
 </head>
 
 <body>
@@ -24,7 +25,7 @@
         <h2>Agenda</h2>
 
         <ul>
-            <li>When And Why? - concurrent integration - motivation</li>
+            <li>Why care about this stuff?</li>
             <li>Mutability - förklara varianter</li>
             <li>(usual threads and locks)</li>
             <li>STM (identity/value)</li>
@@ -42,21 +43,35 @@
             <blockquote>I'm only building a web site, the AppServer&#8482; manages concurrency for me.</blockquote>
         </section>
         <section>
-            <h2>How do you tune your application?</h2>
+            <h2>How to tune your application?</h2>
             <ul>
-                <li>How many threads/processes should the web server have?</li>
-                <li>How many threads/processes should the app server have?</li>
-                <li>How many connections connection pool?</li>
+                <li>#threads for the web server?</li>
+                <li>#threads for the app server?</li>
+                <li>#connections in the connection pool?</li>
             </ul>
         </section>
         <section>
             <h2>CPU or I/O bound?</h2>
             <br/>
             <h3>threads = #cores / (1 - blocking coefficient)</h3>
-            <ul class="">
-                <li>100% CPU-bound -> blocking coefficient == 0</li>
-                <li>100% IO-bound -> blocking coefficient == 1</li>
-            </ul>
+            <table>
+                <tr>
+                    <th>I/O wait</th>
+                    <th>Coefficient</th>
+                </tr>
+                <tr>
+                    <td>0%</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>50%</td>
+                    <td>0.5</td>
+                </tr>
+                <tr>
+                    <td>100%</td>
+                    <td>1</td>
+                </tr>
+            </table>
         </section>
         <section>
             <h2>Concurrent integrations</h2>
