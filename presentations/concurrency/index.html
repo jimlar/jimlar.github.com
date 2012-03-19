@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Concurrency</title>
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet'
-          type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="../lib/revealjs/css/reset.css">
     <link rel="stylesheet" href="../lib/revealjs/css/main.css">
     <link rel="stylesheet" href="../lib/revealjs/lib/zenburn.css">
@@ -13,21 +12,20 @@
 
 <body>
 
-<!-- Any section element inside of this container is displayed as a slide -->
 <div id="main">
 
     <section>
         <h1>Concurrency</h1>
 
-        <h3 class="inverted">.....</h3>
+        <h5><code>(follow (twitter "@jimlar"))</code></h5>
     </section>
 
     <section>
         <h2>Agenda</h2>
 
         <ul>
-            <li>When And Why?</li>
-            <li>Mutability</li>
+            <li>When And Why? - concurrent integration - motivation</li>
+            <li>Mutability - förklara varianter</li>
             <li>(usual threads and locks)</li>
             <li>STM (identity/value)</li>
             <li>Actors</li>
@@ -70,31 +68,35 @@
             <h2>What does it do?</h2>
 
             <pre><code>
-                public class Main {
-                private static boolean done;
+public class Main {
+    private static boolean done;
 
-                public static void main(final String[] args) throws Exception {
-                new Thread() {
-                public void run() {
+    public static void main(final String[] args) throws Exception {
+        new Thread() {
+            public void run() {
                 int i = 0;
                 while(!done) { i++; }
-                System.out.println("Done!");
-                }
-                }.start();
+                System.out.println("Thread done!");
+            }
+        }.start();
 
-                System.out.println("OS: " + System.getProperty("os.name"));
-                Thread.sleep(2000);
-                done = true;
-                System.out.println("flag done set to true");
-                }
-                }
+        System.out.println("Sleeping");
+        Thread.sleep(2000);
+        done = true;
+        System.out.println("'done' set to true");
+    }
+}
             </code></pre>
         </section>
         <section>
             <h2>Memory barriers</h2>
             <p><small>A.K.A memory fence or fence instructions</small></p>
             <ul>
-                <li>Applies to both <a href="http://en.wikipedia.org/wiki/Memory_barrier">CPUs</a> and <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">JVMs</a></li>
+                <li>
+                    Applies to <a href="http://en.wikipedia.org/wiki/Memory_barrier">CPUs</a>,
+                    <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">JVM</a> and
+                    <a href="http://msdn.microsoft.com/sv-se/magazine/cc163715(en-us).aspx">CLR</a>
+                </li>
                 <li>Good for performance - side effects for concurrency</li>
             </ul>
         </section>
@@ -102,24 +104,24 @@
             <h2>Fixed version</h2>
 
             <pre><code>
-                public class Main {
-                private static volatile boolean done; //   <<<--- volatile
+public class Main {
+    private static volatile boolean done; //  <--- volatile
 
-                public static void main(final String[] args) throws Exception {
-                new Thread() {
-                public void run() {
+    public static void main(final String[] args) throws Exception {
+        new Thread() {
+            public void run() {
                 int i = 0;
                 while(!done) { i++; }
-                System.out.println("Done!");
-                }
-                }.start();
+                System.out.println("Thread done!");
+            }
+        }.start();
 
-                System.out.println("OS: " + System.getProperty("os.name"));
-                Thread.sleep(2000);
-                done = true;
-                System.out.println("flag done set to true");
-                }
-                }
+        System.out.println("Sleeping");
+        Thread.sleep(2000);
+        done = true;
+        System.out.println("'done' set to true");
+    }
+}
             </code></pre>
         </section>
         <section>
@@ -136,6 +138,9 @@
                 <li>Actors fall in to this category</li>
             </ul>
         </section>
+        <section>
+            Actors exempel
+        </section>
     </section>
     <section>
         <section>
@@ -151,6 +156,9 @@
             <h2>But how to program without changing state?</h2>
             <p>Modify vs. creating/transforming</p>
             <p>EXAMPLE</p>
+        </section>
+        <section>
+            EXEMPEL identity/state/time separationen i clojure
         </section>
     </section>
     <section>

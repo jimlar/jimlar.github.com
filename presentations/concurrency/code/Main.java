@@ -1,18 +1,18 @@
 public class Main {
-    private static volatile boolean done;
+    private static boolean done;
 
     public static void main(final String[] args) throws Exception {
         new Thread() {
             public void run() {
                 int i = 0;
                 while(!done) { i++; }
-                System.out.println("Done!");
+                System.out.println("Thread done!");
             }
         }.start();
 
-        System.out.println("OS: " + System.getProperty("os.name"));
+        System.out.println("Sleeping");
         Thread.sleep(2000);
         done = true;
-        System.out.println("flag done set to true");
+        System.out.println("'done' set to true");
     }
 }
