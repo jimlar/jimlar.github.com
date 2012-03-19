@@ -52,9 +52,8 @@
             <h2>Shared mutability</h2>
             <ul>
                 <li>Multiple <strong>threads</strong> can modify state</li>
-                <li>Locks are used to manage concurrency</li>
-                <li>Manual deadlock management needed</li>
-                <li>Looks easy but is hard</li>
+                <li>Locking used to manage concurrency</li>
+                <li>Looks deceivingly easy but turns out to be hard</li>
             </ul>
         </section>
         <section>
@@ -94,10 +93,10 @@ public class Main {
             <ul>
                 <li>
                     Applies to <a href="http://en.wikipedia.org/wiki/Memory_barrier">CPUs</a>,
-                    <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">JVM</a> and
-                    <a href="http://msdn.microsoft.com/sv-se/magazine/cc163715(en-us).aspx">CLR</a>
+                    <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">the JVM</a> and
+                    <a href="http://msdn.microsoft.com/sv-se/magazine/cc163715(en-us).aspx">the CLR</a>
                 </li>
-                <li>Good for performance - side effects for concurrency</li>
+                <li>Good for performance - unnatural side effects for concurrency</li>
             </ul>
         </section>
         <section>
@@ -125,7 +124,58 @@ public class Main {
             </code></pre>
         </section>
         <section>
-            Exempel på Account/transfer sortering av lås
+            <h2>Locks - looks easy</h2>
+            <pre><code>
+                transfer(from, to, amount) {
+                    fromLock = from.lock()
+                    from.withdraw(amount)
+                    toLock = to.lock()
+                    to.deposit(amount)
+                    fromLock.release()
+                    toLock.release()
+                }
+            </code></pre>
+        </section>
+        <section>
+            <h2>Gets Harder</h2>
+            <pre><code>
+                transfer(from, to, amount) {
+                    fromLock = from.lock()
+                    from.withdraw(amount)
+                    toLock = to.lock()
+                    to.deposit(amount)
+                    fromLock.release()
+                    toLock.release()
+                }
+
+                undo_transfer(from, to, amount) {
+                    toLock = to.lock()
+                    to.withdraw(amount)
+                    fromLock = from.lock()
+                    from.deposit(amount)
+                    fromLock.release()
+                    toLock.release()
+                }
+            </code></pre>
+        </section>
+        <section>
+            <h2>A Solution</h2>
+            <p>Implement natural order and lock in that order</p>
+            <pre><code>
+                transfer(from, to, amount) {
+                    locks = list()
+                    list = list(from, to)
+                    list.sort()
+                    for (a in list) {
+                        locks.add(a.lock())
+                    }
+                    from.withdraw(amount)
+                    to.deposit(amount)
+                    for (l in locks) {
+                        l.release()
+                    }                
+                }
+            </code></pre>
         </section>
     </section>
 
