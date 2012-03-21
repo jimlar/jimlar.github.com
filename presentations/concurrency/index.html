@@ -27,17 +27,19 @@
         <ul>
             <li>Why care about this stuff?</li>
             <li>State and mutability</li>
-            <li>(usual threads and locks)</li>
+            <li>(usual threads and locks) - Java API exempel</li>
             <li>STM (identity/value)</li>
             <li>Actors</li>
             <li>Actors as integration managers</li>
-            <li>Transactors</li>
-            <li>Datastructures (TRIE-based lists etc)</li>
             <li>When to do what?</li>
         </ul>
     </section>
 
     <section>
+        <section>
+            <h2>Why concurrency?</h2>
+            <p>Make an application faster or more responsive</p>
+        </section>
         <section>
             <h2>Why should I care?</h2>
             <blockquote>I'm only building a web site, the AppServer&#8482; manages concurrency for me.</blockquote>
@@ -49,29 +51,6 @@
                 <li>#threads for the app server?</li>
                 <li>#connections in the connection pool?</li>
             </ul>
-        </section>
-        <section>
-            <h2>CPU or I/O bound?</h2>
-            <br/>
-            <h3>threads = #cores / (1 - blocking coefficient)</h3>
-            <table>
-                <tr>
-                    <th>I/O wait</th>
-                    <th>Coefficient</th>
-                </tr>
-                <tr>
-                    <td>0%</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>50%</td>
-                    <td>0.5</td>
-                </tr>
-                <tr>
-                    <td>100%</td>
-                    <td>1</td>
-                </tr>
-            </table>
         </section>
         <section>
             <h2>Concurrent integrations</h2>
@@ -90,12 +69,36 @@
     </section>
 
     <section>
+        <h2>CPU or I/O bound?</h2>
+        <br/>
+        <h3>threads = #cores / (1 - blocking coefficient)</h3>
+        <table>
+            <tr>
+                <th>I/O wait</th>
+                <th>Coefficient</th>
+            </tr>
+            <tr>
+                <td>0%</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>50%</td>
+                <td>0.5</td>
+            </tr>
+            <tr>
+                <td>100%</td>
+                <td>1</td>
+            </tr>
+        </table>
+    </section>
+    
+    <section>
         <section>
-            <h2>Mutating state</h2>
+            <h2>Managing state</h2>
             <ul>
-                <li>Shared mutability</li>
-                <li>Isolated mutability</li>
-                <li>Pure immutability</li>
+                <li>Shared mutable design</li>
+                <li>Isolated mutable design</li>
+                <li>Pure immutable design</li>
             </ul>
         </section>
     </section>
@@ -238,13 +241,13 @@ public class Main {
             <ul>
                 <li>Only a single thread can ever modify state</li>
                 <li>Encapsulation and locking is not enough!</li>
-                <li>Actors fall in to this category</li>
             </ul>
         </section>
         <section>
-            Actors exempel
+            Actors exempel eller summera ålder exempel
         </section>
     </section>
+    
     <section>
         <section>
             <h2>Pure immutability</h2>
@@ -258,7 +261,10 @@ public class Main {
         <section>
             <h2>But how to program without changing state?</h2>
             <p>Modify vs. creating/transforming</p>
-            <p>EXAMPLE</p>
+            <p>EXAMPLE: LINKED LIST</p>
+        </section>
+        <section>
+            TRIE
         </section>
         <section>
             EXEMPEL identity/state/time separationen i clojure
@@ -274,6 +280,149 @@ public class Main {
             <img src="images/concurrency-jvm.jpg" width="350" height="426"/>
         </p>
     </section>
+
+    <section>
+        <h1>Strategies</h1>
+    </section>
+
+    <section>
+        <section>
+            <h1>The synchronize and suffer&reg; model</h1>
+        </section>
+        <section>
+            <h2>Unsafe</h2>
+            <pre><code>
+class Unlocked {
+    private List&lt;String&gt; state = new ArrayList&lt;String&gt;();
+
+    public void add(String data) {
+        state.add(data);
+    }
+
+    public String getFirst() {
+        return state.get(0);
+    }
+}
+            </code></pre>
+        </section>
+        <section>
+            <h2>Safe</h2>
+            <pre><code>
+class SafeLocks {
+    private List&lt;String&gt; state = new ArrayList&lt;String&gt;();
+
+    public synchronized void add(String data) {
+        state.add(data);
+    }
+
+    public synchronized String getFirst() {
+        return state.get(0);
+    }
+}
+            </code></pre>
+        </section>
+        <section>
+            <h2>Finer granularity</h2>
+            <pre><code>
+class FineGrainedLocks {
+    private List&lt;String&gt; state = new ArrayList&lt;String&gt;();
+
+    public void add(String data) {
+        synchronized (state) {
+            state.add(data);
+        }
+    }
+
+    public String getFirst() {
+        synchronized (state) {
+            return state.get(0);
+        }
+    }
+}
+            </code></pre>
+        </section>
+        <section>
+            <h2>Inproved read performance</h2>
+            <pre><code>
+class ReadWriteLocks {
+    private List<String> state = new ArrayList<String>();
+    private ReadWriteLock stateLock = new ReentrantReadWriteLock();
+
+    public void add(String data) {
+        try {
+            stateLock.writeLock().lock();
+            state.add(data);
+        } finally {
+            stateLock.writeLock().unlock();
+        }
+    }
+
+    public String getFirst() {
+        try {
+            stateLock.readLock().lock();
+            return state.get(0);
+        } finally {
+            stateLock.readLock().unlock();
+        }
+    }
+}
+            </code></pre>
+        </section>
+        <section>
+            <h2>Deadlock management</h2>
+            <pre><code>
+class SafeReadWriteLocks {
+    private List<String> state = new ArrayList<String>();
+    private ReadWriteLock stateLock = new ReentrantReadWriteLock();
+
+    public void add(String data) {
+        try {
+            stateLock.writeLock().tryLock(1, TimeUnit.SECONDS);
+            state.add(data);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Could not get write lock");
+        } finally {
+            stateLock.writeLock().unlock();
+        }
+    }
+
+    public String getFirst() {
+        try {
+            stateLock.readLock().tryLock(1, TimeUnit.SECONDS);
+            return state.get(0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Could not get read lock");
+        } finally {
+            stateLock.readLock().unlock();
+        }
+    }
+}
+            </code></pre>
+        </section>
+    </section>
+
+
+    <section>
+        <section>
+            <h2>STM</h2>
+            <h3>Software Transactional Memory</h3>
+        </section>
+        <section>
+            <h2>Locks</h2>
+            <p></p>
+        </section>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
 
     <section>
         <h2>Holistic Overview</h2>
