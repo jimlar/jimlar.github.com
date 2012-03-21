@@ -94,3 +94,16 @@ class SafeReadWriteLocks {
     }
 }
 
+
+class Coordination {
+    public void transfer(SafeReadWriteLocks from, SafeReadWriteLocks to) {
+        from.stateLock.readLock().lock();
+        to.stateLock.writeLock().lock();
+        to.add(from.getFirst());
+        from.stateLock.readLock().unlock();
+        to.stateLock.writeLock().unlock();
+
+        /* Beware of deadlocks!! */
+    }
+}
+

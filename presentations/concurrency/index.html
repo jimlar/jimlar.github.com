@@ -399,17 +399,83 @@ class SafeReadWriteLocks {
 }
             </code></pre>
         </section>
-    </section>
+        <section>
+            <h2>Coordination</h2>
+            <pre><code>
+class Coordination {
+    public void transfer(SafeReadWriteLocks from, SafeReadWriteLocks to) {
+        from.stateLock.readLock().lock();
+        to.stateLock.writeLock().lock();
+        to.add(from.getFirst());
+        from.stateLock.readLock().unlock();
+        to.stateLock.writeLock().unlock();
 
+        /* Beware of deadlocks!! */
+    }
+}
+            </code></pre>
+        </section>
+    </section>
 
     <section>
         <section>
-            <h2>STM</h2>
-            <h3>Software Transactional Memory</h3>
+            <h1>STM</h1>
+            <h3>Software Transactional Memory - ACI(!D)</h3>
         </section>
         <section>
-            <h2>Locks</h2>
-            <p></p>
+            <h2>OOP went astray</h2>
+            <blockquote cite="http://userpage.fu-berlin.de/~ram/pub/pub_jf47ht81Ht/doc_kay_oop_en">
+                I thought of objects being like biological cells and/or individual
+                computers on a network, only able to communicate with messages
+            </blockquote>
+            <blockquote cite="http://userpage.fu-berlin.de/~ram/pub/pub_jf47ht81Ht/doc_kay_oop_en">
+                I wanted to get rid of data.
+            </blockquote>
+            <p><i><small>- Alan Kay</a></small></i></p>
+        </section>
+        <section>
+            <h2>Identity and state merged</h2>
+            <ul>
+                <li>Feels kind of simple and natural - ADTs</li>
+                <li>"follow the reference and alter the memory location"</li>
+                <li>Serious ramifications on concurrency</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Real world is not like this</h2>
+            <ul>
+                <li>Closing price of Google stock Jan 1st 2010: $759</li>
+                <li>Closing price of Google stock Jan 30th 2010: $769</li>
+            </ul>
+            <h3></h3>
+            <h3>This is immutable!</h3>
+        </section>
+        <section>
+            <h2>Separating identity and state</h2>
+            <pre><code>
+                (def google (ref 759))
+
+                (println "Google is at" @google)
+
+                (ref-set google 769)
+            </code></pre>
+        </section>
+        <section>
+            <h2>No locking anymore</h2>
+            <pre><code>
+                (def account1 (ref 100))
+                (def account2 (ref 200))
+
+                (dosync
+                    (alter account1 + 10)
+                    (alter account2 - 10))
+            </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <section>
+            <h1>Actors</h1>
         </section>
     </section>
 
