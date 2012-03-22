@@ -30,12 +30,10 @@
         <h2>Agenda</h2>
 
         <ul>
-            <li>Why care about this stuff?</li>
-            <li>State and mutability</li>
-            <li>(usual threads and locks) - Java API exempel</li>
-            <li>STM (identity/value)</li>
-            <li>Actors</li>
-            <li>Actors as integration managers</li>
+            <li>Who cares?</li>
+            <li>Know your application</li>
+            <li>State</li>
+            <li>Tools for managing state</li>
             <li>When to do what?</li>
         </ul>
     </section>
@@ -99,7 +97,7 @@
     
     <section>
         <section>
-            <h2>Managing state</h2>
+            <h2>Here be state</h2>
             <ul>
                 <li>Shared mutable design</li>
                 <li>Isolated mutable design</li>
@@ -182,60 +180,6 @@ public class Main {
         System.out.println("'done' set to true");
     }
 }
-            </code></pre>
-        </section>
-        <section>
-            <h2>Locks - looks easy</h2>
-            <pre><code>
-                transfer(from, to, amount) {
-                    fromLock = from.lock()
-                    from.withdraw(amount)
-                    toLock = to.lock()
-                    to.deposit(amount)
-                    fromLock.release()
-                    toLock.release()
-                }
-            </code></pre>
-        </section>
-        <section>
-            <h2>Gets Harder</h2>
-            <pre><code>
-                transfer(from, to, amount) {
-                    fromLock = from.lock()
-                    from.withdraw(amount)
-                    toLock = to.lock()
-                    to.deposit(amount)
-                    fromLock.release()
-                    toLock.release()
-                }
-
-                undo_transfer(from, to, amount) {
-                    toLock = to.lock()
-                    to.withdraw(amount)
-                    fromLock = from.lock()
-                    from.deposit(amount)
-                    fromLock.release()
-                    toLock.release()
-                }
-            </code></pre>
-        </section>
-        <section>
-            <h2>A Solution</h2>
-            <p>Implement natural order and lock in that order</p>
-            <pre><code>
-                transfer(from, to, amount) {
-                    locks = list()
-                    list = list(from, to)
-                    list.sort()
-                    for (a in list) {
-                        locks.add(a.lock())
-                    }
-                    from.withdraw(amount)
-                    to.deposit(amount)
-                    for (l in locks) {
-                        l.release()
-                    }                
-                }
             </code></pre>
         </section>
     </section>
