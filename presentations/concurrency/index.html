@@ -72,9 +72,9 @@
     </section>
 
     <section>
-        <h2>CPU or I/O bound?</h2>
+        <h2>Know your app - CPU or I/O bound?</h2>
         <br/>
-        <h3>threads = #cores / (1 - blocking coefficient)</h3>
+        <h4>threads = #cores / (1 - blocking coefficient)</h4>
         <table>
             <tr>
                 <th>I/O wait</th>
@@ -103,6 +103,9 @@
                 <li>Isolated mutable design</li>
                 <li>Pure immutable design</li>
             </ul>
+            <br/>
+            <br/>
+            <h3>Independent of programming language</h3>
         </section>
     </section>
 
@@ -111,7 +114,6 @@
             <h2>Shared mutability</h2>
             <ul>
                 <li>Multiple <strong>threads</strong> can modify state</li>
-                <li>Locking used to manage concurrency</li>
                 <li>Looks deceivingly easy but turns out to be hard</li>
             </ul>
         </section>
@@ -152,8 +154,8 @@ public class Main {
             <ul>
                 <li>
                     Applies to <a href="http://en.wikipedia.org/wiki/Memory_barrier">CPUs</a>,
-                    <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">the JVM</a> and
-                    <a href="http://msdn.microsoft.com/sv-se/magazine/cc163715(en-us).aspx">the CLR</a>
+                    <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">the JVM</a> and the
+                    <a href="http://msdn.microsoft.com/sv-se/magazine/cc163715(en-us).aspx">CLR</a>
                 </li>
                 <li>Good for performance - unnatural side effects for concurrency</li>
             </ul>
@@ -193,7 +195,7 @@ public class Main {
             </ul>
         </section>
         <section>
-            Actors exempel eller summera ålder exempel
+            TODO: Actors exempel eller summera ålder exempel
         </section>
     </section>
     
@@ -201,16 +203,18 @@ public class Main {
         <section>
             <h2>Pure immutability</h2>
             <ul>
-                <li>Every new state described as transformation of another state</li>
-                <li>A.K.A pure functional programming style</li>
-                <li>Actually <strong>independent of language!</strong></li>
+                <li>State is created but never changed</li>
+                <li>AKA pure functional programming style</li>
                 <li>Some languages enforce this, most don't</li>
             </ul>
         </section>
         <section>
-            <h2>But how to program without changing state?</h2>
-            <p>Modify vs. creating/transforming</p>
-            <p>EXAMPLE: LINKED LIST</p>
+            <h2>How to program wihout changing state?</h2>
+            <img src="images/linked-lists.png"/>
+        </section>
+        <section>
+            <h2>Create new state - don't modify</h2>
+            <img src="images/linked-lists2.png"/>
         </section>
         <section>
             TRIE
@@ -231,7 +235,7 @@ public class Main {
     </section>
 
     <section>
-        <h1>Strategies</h1>
+        <h1>Strategies for state management</h1>
     </section>
 
     <section>
@@ -380,7 +384,7 @@ class Coordination {
             <blockquote cite="http://userpage.fu-berlin.de/~ram/pub/pub_jf47ht81Ht/doc_kay_oop_en">
                 I wanted to get rid of data.
             </blockquote>
-            <p><i><small>- Alan Kay (mr. Smalltalk)</a></small></i></p>
+            <p><i><small>- <a href="http://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a></small></i></p>
         </section>
         <section>
             <h2>Identity and state merged</h2>
