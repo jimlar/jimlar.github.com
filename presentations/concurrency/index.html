@@ -422,7 +422,12 @@ class CoordinationSafe {
             <br/>
             <h3>Value</h3>
             <p>
-                something that doesn't change, like '42' or 'May 26 2012'
+                something that doesn't change, like 'May 26 2012' or '42'
+            </p>
+            <br/>
+            <h3>State</h3>
+            <p>
+                an identity has a state, which is it's value at a point in time
             </p>
         </section>
         <section>
@@ -462,6 +467,24 @@ class CoordinationSafe {
                 (dosync
                     (alter account1 + 10)
                     (alter account2 - 10))
+            </code></pre>
+        </section>
+        <section>
+            <h2>Java example</h2>
+            <pre><code>
+import akka.stm.*;
+
+final Ref<Integer> account1 = new Ref<Integer>(100);
+final Ref<Integer> account2 = new Ref<Integer>(200);
+
+public void transfer() {
+    new Atomic() {
+        public Object atomically() {
+            account1.set(account1.get() + 10);
+            return account2.set(account2.get() - 10);
+        }
+    }.execute();
+}
             </code></pre>
         </section>
     </section>
