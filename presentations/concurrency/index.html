@@ -17,12 +17,6 @@
 
     <section>
         <h1>Concurrency</h1>
-        <h3>TODO:</h3>
-        <ul>
-            <li>Merga mutability och strategies</li>
-            <li>Koppla bättre till verkligheten</li>
-            <li>Datastrukturer - TRIEs</li>
-        </ul>
         <h5><code>(follow (twitter "@jimlar"))</code></h5>
     </section>
 
@@ -432,18 +426,11 @@ class CoordinationSafe {
             </p>
         </section>
         <section>
-            <h2>Identity and state merged</h2>
-            <ul>
-                <li>Feels kind of simple and natural - ADTs</li>
-                <li>"follow the reference and alter the memory location"</li>
-                <li>Serious ramifications on concurrency</li>
-            </ul>
-        </section>
-        <section>
             <h2>OO typically unifies identity and state</h2>
             <ul>
-                <li>Feels kind of simple and natural - ADTs</li>
-                <li>"follow the reference and alter the memory location"</li>
+                <li>An object (identity) is a pointer to the memory that contains the value of its state</li>
+                <li>No way to change identity's state other than in-place memory mutation.</li>
+                <li>OO doesn't have to be this way, but, usually, it is (Java/C++/Python/Ruby etc).</li>
                 <li>Serious ramifications on concurrency</li>
             </ul>
         </section>
@@ -454,7 +441,7 @@ class CoordinationSafe {
                 <li>Closing price of Google stock Jan 30th 2010: $769</li>
             </ul>
             <h3></h3>
-            <h3>This is immutable!</h3>
+            <h3>This is all immutable!</h3>
         </section>
         <section>
             <h2>Separating identity and state</h2>
@@ -532,7 +519,28 @@ first = sm !! GetFirst()
     </section>
 
     <section>
-        <h1>When to do what?</h1>
+        <section>
+            <h1>When to do what?</h1>
+        </section>
+        <section>
+            <h4>Explicit synchronization - locks</h4>
+            <p>
+                <small>Hard to get right</small>
+            </p>
+            <h4>STM</h4>
+            <p>
+                <small>Bad when frequent write collisions</small>
+            </p>
+            <h4>Actors</h4>
+            <p>
+                <small>Do not prevent deadlock or starvation</small>
+            </p>
+            <h4>Pure immutability</h4>
+            <p>
+                <small>Takes some practice, need to use efficient data structures. <br/>Can be hard if the language does not help you.</small>
+            </p>
+        </section>
+
     </section>
 
 </div>
