@@ -75,6 +75,7 @@
         <h2>Know your app - CPU or I/O bound?</h2>
         <br/>
         <h4>threads = #cores / (1 - blocking coefficient)</h4>
+        <!--
         <table>
             <tr>
                 <th>I/O wait</th>
@@ -93,6 +94,7 @@
                 <td>1</td>
             </tr>
         </table>
+        -->
     </section>
     
     <section>
@@ -111,7 +113,7 @@
 
     <section>
         <section>
-            <h2>Shared mutability</h2>
+            <h2>Shared mutable</h2>
             <ul>
                 <li>Multiple <strong>threads</strong> can modify state</li>
                 <li>Looks deceivingly easy but turns out to be hard</li>
@@ -120,7 +122,7 @@
         <section>
             <h2>OO made us do it!</h2>
             <p>
-                <q>The best thing with Java is the Thread class, the worst this with Java is the Thread class</q><br/>
+                <q>The coolest thing with Java is the Thread class, the worst is the Thread class</q><br/>
                 <i><small>- <a href="http://gee.cs.oswego.edu/dl/">Doug Lea</a></small></i>
             </p>
         </section>
@@ -149,18 +151,6 @@ public class Main {
             </code></pre>
         </section>
         <section>
-            <h2>Memory barriers</h2>
-            <p><small>A.K.A memory fence or fence instructions</small></p>
-            <ul>
-                <li>
-                    Applies to <a href="http://en.wikipedia.org/wiki/Memory_barrier">CPUs</a>,
-                    <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">the JVM</a> and the
-                    <a href="http://msdn.microsoft.com/sv-se/magazine/cc163715(en-us).aspx">CLR</a>
-                </li>
-                <li>Good for performance - unnatural side effects for concurrency</li>
-            </ul>
-        </section>
-        <section>
             <h2>Fixed version</h2>
 
             <pre><code>
@@ -184,26 +174,47 @@ public class Main {
 }
             </code></pre>
         </section>
+        <section>
+            <h2>Memory barriers</h2>
+            <p><small>A.K.A memory fence or fence instructions</small></p>
+            <ul>
+                <li>
+                    Applies to <a href="http://en.wikipedia.org/wiki/Memory_barrier">CPUs</a>, the
+                    <a href="http://en.wikipedia.org/wiki/Java_Memory_Model">JVM</a> and the
+                    <a href="http://msdn.microsoft.com/sv-se/magazine/cc163715(en-us).aspx">CLR</a>
+                </li>
+                <li>Good for performance - unnatural side effects for concurrency</li>
+            </ul>
+        </section>
     </section>
 
     <section>
         <section>
-            <h2>Isolated mutability</h2>
+            <h2>Isolated mutable</h2>
             <ul>
-                <li>Only a single thread can ever modify state</li>
-                <li>Encapsulation and locking is not enough!</li>
+                <li>Only a single thread can ever modify the state</li>
+                <li>Everything shared is immutable</li>
+                <li>Encapsulation is not enough</li>
             </ul>
         </section>
         <section>
-            TODO: Actors exempel eller summera ålder exempel
+            <h2>Example - age sum</h2>
+            <p>
+                All go to the whiteboard and add your age to the sum<br/>
+                <small>- Shared mutabile design</small>
+            </p>
+            <p>
+                Send me an SMS with your age and I'll sum it up<br/>
+                <small>- Isolated mutable design</small>
+            </p>
         </section>
     </section>
     
     <section>
         <section>
-            <h2>Pure immutability</h2>
+            <h2>Purely immutable</h2>
             <ul>
-                <li>State is created but never changed</li>
+                <li>State is never changed</li>
                 <li>AKA pure functional programming style</li>
                 <li>Some languages enforce this, most don't</li>
             </ul>
@@ -217,10 +228,13 @@ public class Main {
             <img src="images/linked-lists2.png"/>
         </section>
         <section>
-            TRIE
-        </section>
-        <section>
-            EXEMPEL identity/state/time separationen i clojure
+            <h2>Age sum</h2>
+            <ol>
+                <li>Arrange yourselves into a chain</li>
+                <li>Receive a number from your left</li>
+                <li>Add your age and pass the number to your right</li>
+                <li>Last person in chain has the sum total</li>
+            </ol>
         </section>
     </section>
     <section>
@@ -322,7 +336,7 @@ class ReadWriteLocks {
             </code></pre>
         </section>
         <section>
-            <h2>Deadlock management</h2>
+            <h2>Timeouts</h2>
             <pre><code>
 class SafeReadWriteLocks {
     private List<String> state = new ArrayList<String>();
@@ -357,13 +371,33 @@ class SafeReadWriteLocks {
             <pre><code>
 class Coordination {
     public void transfer(SafeReadWriteLocks from, SafeReadWriteLocks to) {
-        from.stateLock.readLock().lock();
-        to.stateLock.writeLock().lock();
-        to.add(from.getFirst());
-        from.stateLock.readLock().unlock();
-        to.stateLock.writeLock().unlock();
+        from.lock();
+        to.lock();
+        String data = from.removeFirst();
+        to.add(data);
+        from.unlock();
+        to.unlock();
 
         /* Beware of deadlocks!! */
+    }
+}
+            </code></pre>
+        </section>
+        <section>
+            <h2>Coordination - safe</h2>
+            <pre><code>
+class CoordinationSafe {
+    public void transfer(SafeReadWriteLocks from, SafeReadWriteLocks to) {
+        List<SafeReadWriteLocks> locks = Arrays.asList(from, to);
+        locks.sort();
+        for (SafeReadWriteLocks lock : locks) {
+            lock.lock();
+        }
+        String data = from.removeFirst();
+        to.add(data);
+        for (SafeReadWriteLocks lock : locks) {
+            lock.unlock();
+        }
     }
 }
             </code></pre>
@@ -387,7 +421,26 @@ class Coordination {
             <p><i><small>- <a href="http://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a></small></i></p>
         </section>
         <section>
+            <h3>Identity</h3>
+            <p>
+                a stable logical entity associated with a series of different values over time, for example 'today'
+            </p>
+            <br/>
+            <h3>Value</h3>
+            <p>
+                something that doesn't change, like '42' or 'May 26 2012'
+            </p>
+        </section>
+        <section>
             <h2>Identity and state merged</h2>
+            <ul>
+                <li>Feels kind of simple and natural - ADTs</li>
+                <li>"follow the reference and alter the memory location"</li>
+                <li>Serious ramifications on concurrency</li>
+            </ul>
+        </section>
+        <section>
+            <h2>OO typically unifies identity and state</h2>
             <ul>
                 <li>Feels kind of simple and natural - ADTs</li>
                 <li>"follow the reference and alter the memory location"</li>
@@ -472,6 +525,14 @@ first = sm !! GetFirst()
 
             </code></pre>
         </section>
+    </section>
+
+    <section>
+        <h1>Immutable datastructures</h1>
+    </section>
+
+    <section>
+        <h1>When to do what?</h1>
     </section>
 
 </div>

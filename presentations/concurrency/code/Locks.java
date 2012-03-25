@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -97,13 +98,29 @@ class SafeReadWriteLocks {
 
 class Coordination {
     public void transfer(SafeReadWriteLocks from, SafeReadWriteLocks to) {
-        from.stateLock.readLock().lock();
-        to.stateLock.writeLock().lock();
-        to.add(from.getFirst());
-        from.stateLock.readLock().unlock();
-        to.stateLock.writeLock().unlock();
+        from.lock();
+        to.lock();
+        String data = from.removeFirst();
+        to.add(data);
+        from.unlock();
+        to.unlock();
 
         /* Beware of deadlocks!! */
+    }
+}
+
+class CoordinationSafe {
+    public void transfer(SafeReadWriteLocks from, SafeReadWriteLocks to) {
+        List<SafeReadWriteLocks> locks = Arrays.asList(from, to);
+        locks.sort();
+        for (SafeReadWriteLocks lock : locks) {
+            lock.lock();
+        }
+        String data = from.removeFirst();
+        to.add(data);
+        for (SafeReadWriteLocks lock : locks) {
+            lock.unlock();
+        }
     }
 }
 
