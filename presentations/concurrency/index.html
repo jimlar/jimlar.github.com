@@ -107,7 +107,7 @@
 
     <section>
         <section>
-            <h2>Shared mutable</h2>
+            <h2>Shared mutability</h2>
             <ul>
                 <li>Multiple <strong>threads</strong> can modify state</li>
                 <li>Looks deceivingly easy but turns out to be hard</li>
@@ -149,7 +149,7 @@ public class Main {
 
             <pre><code>
 public class Main {
-    private static volatile boolean done; //  <--- volatile
+    private static volatile boolean done;
 
     public static void main(final String[] args) throws Exception {
         new Thread() {
@@ -184,7 +184,7 @@ public class Main {
 
     <section>
         <section>
-            <h2>Isolated mutable</h2>
+            <h2>Isolated mutability</h2>
             <ul>
                 <li>Only a single thread can ever modify the state</li>
                 <li>Everything shared is immutable</li>
@@ -195,7 +195,7 @@ public class Main {
             <h2>Example - age sum</h2>
             <p>
                 All go to the whiteboard and add your age to the sum<br/>
-                <small>- Shared mutabile design</small>
+                <small>- Shared mutable design</small>
             </p>
             <p>
                 Send me an SMS with your age and I'll sum it up<br/>
@@ -206,10 +206,10 @@ public class Main {
     
     <section>
         <section>
-            <h2>Purely immutable</h2>
+            <h2>Pure immutability</h2>
             <ul>
                 <li>State is never changed</li>
-                <li>AKA pure functional programming style</li>
+                <li>AKA <i>pure functional programming style</i></li>
                 <li>Some languages enforce this, most don't</li>
             </ul>
         </section>
@@ -222,7 +222,7 @@ public class Main {
             <img src="images/linked-lists2.png"/>
         </section>
         <section>
-            <h2>Age sum</h2>
+            <h2>The age sum</h2>
             <ol>
                 <li>Arrange yourselves into a chain</li>
                 <li>Receive a number from your left</li>
@@ -234,7 +234,7 @@ public class Main {
     <section>
         <h2>Mutability</h2>
         <p>
-            <q>Shared mutability is pure evil, avoid it!</q><br/>
+            <q>Shared mutability is pure evil. Avoid it!</q><br/>
             <i><small>- <a href="http://twitter.com/venkat_s">Venkat Subramaniam</a></small></i>
         </p>
         <p>
@@ -248,7 +248,7 @@ public class Main {
 
     <section>
         <section>
-            <h1>The synchronize and suffer&reg; model</h1>
+            <h1>The synchronize and suffer&#8482; model</h1>
         </section>
         <section>
             <h2>Unsafe</h2>
@@ -533,7 +533,7 @@ first = sm !! GetFirst()
             </p>
             <h4>Actors</h4>
             <p>
-                <small>Do not prevent deadlock or starvation</small>
+                <small>Do not prevent deadlock or starvation. Interleaves reads and writes.</small>
             </p>
             <h4>Pure immutability</h4>
             <p>
