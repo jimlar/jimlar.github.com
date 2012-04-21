@@ -36,10 +36,6 @@
     - <a href="http://en.wikiquote.org/wiki/Edsger_W._Dijkstra">Edsger W. Dijkstra</a>
 </section>
 
-
-<section>
-    <h1>Liten ordlista</h1>
-</section>
 <section>
     <h2>Enkel - Simple</h2>
     <ul>
@@ -56,7 +52,7 @@
     <h3>Objektivt!</h3>
 </section>
 <section>
-    <h2>L&auml;tt - Easy</h2>
+    <h2>Lätt - Easy</h2>
     <ul>
         <li>Motsats till svårt</li>
         <li>Nära till hands</li>
@@ -71,13 +67,11 @@
 </section>
 
 <section>
-    <h2>Mänsklighetens begränsningar</h2>
+    <h2>Begränsningar</h2>
     <ul>
         <li>Vi måste förstå för att göra rätt</li>
         <li>Vi kan bara tänka på en begränsad mängd saker i taget</li>
         <li>Sammanflätade saker behöver tänkas på tillsammans</li>
-        <li>Lätt att skapa mer komplexitet än vi kan förstå</li>
-        <li>Alla befinner sig statistiskt sett på samma nivå</li>
     </ul>
 </section>
 
@@ -90,39 +84,33 @@
                 <li>Ersätta programmerare</li>
             </ul>
         </li>
-        <li>Mindre fokus på den långsiktiga användningen
+        <li>Mindre fokus på artefakten
             <ul>
                 <li>Kvalitet och korrekthet</li>
                 <li>Underhåll och förändring</li>
             </ul>
         </li>
     </ul>
-    <h3>Utvärdera konstruktionen genom dess artefakt!</h3>
 </section>
 
 <section>
     <h2>Lätt men komplext?</h2>
-    <p>Lätt eftersom vi är vana vid det - vi tänker inte på komplexiteten det skapar</p>
-</section>
-
-<section>
-    <h2>Verktygslåda för komplexitet</h2>
     <table>
         <tr>
             <th>Konstruktion</th>
-            <th>Sammanblandar</th>
+            <th>Sammanflätar</th>
         </tr>
         <tr>
-            <td>Tillstånd</td>
-            <td>Allt som kommer i kontakt med tillståndet</td>
+            <td>State</td>
+            <td>Allt som kommer i kontakt med det</td>
         </tr>
         <tr>
             <td>Objekt</td>
-            <td>Tillstånd, identitet och värde</td>
+            <td>State, identitet och värde</td>
         </tr>
         <tr>
             <td>Metoder</td>
-            <td>Funktion och tillstånd, namnrymd</td>
+            <td>Funktion och state, namnrymder</td>
         </tr>
         <tr>
             <td>Arv</td>
@@ -138,7 +126,7 @@
         </tr>
         <tr>
             <td>ORM</td>
-            <td>OMG</td>
+            <td>OMG!</td>
         </tr>
     </table>
 </section>
@@ -152,15 +140,15 @@
         </tr>
         <tr>
             <td>Värden</td>
-            <td>Språk, "final", persistent collections</td>
+            <td>"final", persistent collections</td>
         </tr>
         <tr>
             <td>Funktioner</td>
-            <td>Tillståndslösa metoder</td>
+            <td>a.k.a. stateless methods</td>
         </tr>
         <tr>
             <td>Data</td>
-            <td>Maps, arrays, sets, JSON etc.</td>
+            <td>Maps, lists, sets...</td>
         </tr>
         <tr>
             <td>Köer</td>
