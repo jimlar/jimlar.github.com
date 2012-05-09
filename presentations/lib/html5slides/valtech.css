@@ -1,0 +1,9 @@
+
+.slides.template-valtech > article:not(.nobackground):not(.biglogo) {
+    background: url(valtech_small_blue.png) 735px 625px no-repeat;
+    background-color: white;
+}
+
+.slides.template-valtech h2 {
+    position: static;
+}
