@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Go simple, not easy</title>
+    <meta charset='utf-8'>
+    <script src='../lib/html5slides/slides.js'></script>
+    <link rel="stylesheet" href="../lib/html5slides/valtech.css"/>
+</head>
+
+
+<body style='display: none'>
+
+<section class='slides layout-regular template-valtech'>
+
+    <article>
+        <h1>
+            Go simple, not easy
+        </h1>
+        <p>
+            <br>
+            Jimmy Larsson - @jimlar
+        </p>
+    </article>
+
+    <article>
+        <q> Simplicity is prerequisite for reliability </q>
+        <div class='author'>
+            Edsger W. Dijkstra
+        </div>
+    </article>
+
+    <article>
+        <h2>Me</h2>
+        <ul>
+            <li>Coding my way through the last 28 years or so</li>
+            <li>ASM, C, C++, Pascal, Scheme, Perl, Java, Ruby, Python, Scala, Clojure...</li>
+            <li>Architecture</li>
+            <li>Agile</li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>Your brain demands simple!</h2>
+        <ul class="build">
+            <li>We need to understand the software</li>
+            <li>We can only consider a few things at a time</li>
+            <li>We need to consider intertwined things together</li>
+            <li><strong>There are no super humans!</strong></li>
+        </ul>
+    </article>
+
+    <article>
+        <h1>Are you doing simple or easy?</h1>
+    </article>
+
+    <article>
+        <h2>Simple</h2>
+        <ul class="build">
+            <li>Opposite of complex</li>
+            <li>One role, task, concept, dimension</li>
+            <li>Lack of interleaving</li>
+            <li>Not about cardinality - number of instances</li>
+        </ul>
+        <ul class="build">
+            <li><strong>Simplicity is objective!</strong></li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>Easy</h2>
+        <ul class="build">
+            <li>Opposite of hard</li>
+            <li>Near our hard drive - <i>"gem install"</i></li>
+            <li>Near our understanding/skill set - familiar</li>
+        </ul>
+        <ul class="build">
+            <li><strong>Easy is relative!</strong></li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>What are we doing today?</h2>
+        <ul class="build">
+            <li>
+                <strong>Current focus: use of constructs</strong>
+                <ul class="build">
+                    <li>Programmer convenience and replaceability</li>
+                    <li>All about <i>Easy</i></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="build">
+            <li>
+                <strong>Lacking focus: the artifacts</strong>
+                <ul class="build">
+                    <li>Long term results of use</li>
+                    <li>Quality, correctness and maintenance</li>
+                    <li>All about <i>Simple</i></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="build">
+            <li>
+                <strong>We need to assess constructs by their artifacts!</strong>
+            </li>
+        </ul>
+
+    </article>
+
+    <article>
+        <h2>Comparing simple and easy</h2>
+        <p>&nbsp;</p>
+        <p style="text-align: center">
+            <img src="devspeed.png">
+        </p>
+    </article>
+
+    <article>
+        <h2>Watch out! Easy but complex!</h2>
+        <table>
+            <thead class="build">
+                <tr>
+                    <th><strong>Construct</strong></th>
+                    <th><strong>Interleaves</strong></th>
+                </tr>
+            </thead>
+            <tbody class="build">
+                <tr>
+                    <td>Mutable state</td>
+                    <td>Everything that reads/writes</td>
+                </tr>
+                <tr>
+                    <td>Objects</td>
+                    <td>Identity and value</td>
+                </tr>
+                <tr>
+                    <td>Inheritance</td>
+                    <td>Types</td>
+                </tr>
+                <tr>
+                    <td>Methods</td>
+                    <td>Function, state and namespaces</td>
+                </tr>
+                <tr>
+                    <td>Variables</td>
+                    <td>Value and time</td>
+                </tr>
+                <tr>
+                    <td>ORM</td>
+                    <td>OMG!</td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+
+    <article>
+        <h2>Go-ing simple</h2>
+        <ul class="build">
+            <li>Dataflow concurrency - channels</li>
+            <li>Go routines</li>
+            <li>No classes</li>
+            <li>Interfaces and Structs - embedding</li>
+            <li>Functions are values - composable</li>
+            <li>Unused var/import - compiler error</li>
+        </ul>
+        <ul class="build">
+            <li>What, no immutable data structures?</li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>How to make simple easy?</h2>
+        <ul class="build">
+            <li>Learn and experiment!</li>
+            <li>Simplify your learning - go "bare metal"</li>
+            <li>Consider about your artifacts</li>
+        </ul>
+        <ul class="build">
+            <li>Requires sensibilities and care - like refactoring</li>
+        </ul>
+
+    </article>
+
+    <article>
+        <q>Simplicity is the ultimate sophistication</q>
+        <div class='author'>
+            Leonardo da Vinci
+        </div>
+
+        <div style="text-align: right">
+            <p>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                Jimmy Larsson - @jimlar
+            </p>
+        </div>
+    </article>
+
+</section>
+
+</body>
+</html>
