@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Go simple, not easy</title>
+    <meta charset='utf-8'>
+    <script src='../lib/html5slides/slides.js'></script>
+    <link rel="stylesheet" href="../lib/html5slides/valtech.css"/>
+</head>
+
+
+<body style='display: none'>
+
+<section class='slides layout-regular template-valtech'>
+
+    <article>
+        <h1>
+            Varför objektorinterar vi egentligen?
+        </h1>
+        <p>
+            <br>
+            Jimmy Larsson - @jimlar
+        </p>
+    </article>
+
+    <article>
+        <h1>
+            OO is <u>not</u> the natural paradigm for the web!
+        </h1>
+    </article>
+
+    <article>
+        <h2>Me</h2>
+        <ul>
+            <li>Coding my way through the last 28 years or so</li>
+            <li>ASM, C, C++, Pascal, Scheme, Perl, Java, Ruby, Python, Scala, Clojure...</li>
+            <li>Architecture</li>
+            <li>Devops</li>
+            <li>Agile</li>
+        </ul>
+    </article>
+
+    <article>
+        <pre>
+            * computational models (lambda, turing, liskov): http://blog.jessitron.com/2013/05/two-models-of-computation-or-why-im.html (Jessica Kerr)
+            * OO web?
+            * Vad är webben - datatransforms (input, request, databas, integration, output html)
+               * Filter bild
+               * Zooma in på filtret (ladda upp data, ta beslut, goto 10, save "data", output: html)
+            * Hur mycket av mängden kod vi har löser problemet?
+            * Formal vs informal (kodstandarder, patterns, etc)
+              * Strategy, template method, dependency injection
+              * unix pipes / map - reduce (många barn har kärt namn)
+
+
+            struktur:
+              1. Hook, OO är helt fel för webben
+              2. Vad är webben?
+              3. Vad är FP: f(x) = y (input -> output), fibonacci vs transformation
+              4. ?? Vad är OO i en webapp ORM + ~MVC + Utils.java / helper.rb
+              5. Desktop app OO vettigt
+              6. Jämförelse elektronik, krets, sätta oscilloskopet vid nästa kopplingspunkt (jmfr inuti objektet)
+              7. Clojure exempel (jdbc, testning, vyer)
+              99. "Eat shit fibonacci"
+        </pre>
+
+    </article>
+    <article>
+        <h2>What's a web app anyway?</h2>
+        <img src="webapp_as_a_filter.svg"/>
+    </article>
+    <article>
+        <h2>The code</h2>
+        <img src="all_webapps.svg"/>
+    </article>
+    <article>
+        <h2>Data access</h2>
+        <pre title="clojure.java.jdbc">(def db "postgresql://localhost:5432/test_db")
+(query db
+    (select * :persons
+        (order-by :name)))
+
+=> [{:name "Irma"} {:name "Isabel"} {:name "Lova"} ..]</pre>
+        <pre title="sqlkorma">
+(defentity address
+    (table-fields :street :city :zip))
+
+(defentity users
+    (has-one address))
+
+(select users
+    (with address))</pre>
+    </article>
+    <article>
+        <h2>Integrations</h2>
+        <pre>
+(json/parse-string
+    (slurp "http://www.debaser.se/debaser/api/?format=json..."))
+
+=> [{"EventId" "3435" "EventDate" "2010-01-01" ...} ..]
+        </pre>
+    </article>
+    <article>
+        <h2>Transform to HTML</h2>
+        <pre>
+(html [:ul
+   (for [x (range 1 4)]
+     [:li x])])
+"&lt;ul&gt;&lt;li&gt;1&lt;/li&gt;&lt;li&gt;2&lt;/li&gt;&lt;li&gt;3&lt;/li&gt;&lt;/ul&gt;"
+        </pre>
+    </article>
+    <article>
+        <h2>Transform to HTML - with template</h2>
+        <pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Enlive Tutorial!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;Hello world!&lt;/p&gt;
+        &lt;p id="message"&gt;A message could go here.&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <pre>
+(html/deftemplate index "template1.html" [input]
+  [:p#message] (html/content (:message input)))
+(index {:message "Hello world!"})
+        </pre>
+    </article>
+    <article>
+        <h2>Tests</h2>
+        <pre>
+(fact "parse line gives empty vector on bad line"
+  (parse-line "") => {}
+  (parse-line " ") => {}
+  (parse-line " put") => {}
+  (parse-line "\n") => {})
+        </pre>
+    </article>
+    <article>
+        <h2>FP &ne; Fibonacci</h2>
+    </article>
+</section>
+
+<script src="../lib/revealjs/lib/highlight.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+</body>
+</html>
