@@ -4,7 +4,6 @@
 <head>
     <title>Go simple, not easy</title>
     <meta charset='utf-8'>
-    <script src='../lib/html5slides/slides.js'></script>
     <link rel="stylesheet" href="../lib/html5slides/valtech.css"/>
 </head>
 
@@ -44,9 +43,6 @@
         <pre>
             * computational models (lambda, turing, liskov): http://blog.jessitron.com/2013/05/two-models-of-computation-or-why-im.html (Jessica Kerr)
             * OO web?
-            * Vad är webben - datatransforms (input, request, databas, integration, output html)
-               * Filter bild
-               * Zooma in på filtret (ladda upp data, ta beslut, goto 10, save "data", output: html)
             * Hur mycket av mängden kod vi har löser problemet?
             * Formal vs informal (kodstandarder, patterns, etc)
               * Strategy, template method, dependency injection
@@ -54,17 +50,13 @@
 
 
             struktur:
-              1. Hook, OO är helt fel för webben
-              2. Vad är webben?
-              3. Vad är FP: f(x) = y (input -> output), fibonacci vs transformation
-              4. ?? Vad är OO i en webapp ORM + ~MVC + Utils.java / helper.rb
               5. Desktop app OO vettigt
               6. Jämförelse elektronik, krets, sätta oscilloskopet vid nästa kopplingspunkt (jmfr inuti objektet)
-              7. Clojure exempel (jdbc, testning, vyer)
               99. "Eat shit fibonacci"
         </pre>
-
     </article>
+
+    <!-- webapps intrinsic-->
     <article>
         <h2>What's a web app anyway?</h2>
         <img src="webapp_as_a_filter.svg"/>
@@ -73,6 +65,49 @@
         <h2>The code</h2>
         <img src="all_webapps.svg"/>
     </article>
+
+    <!-- oo webapps -->
+    <article>
+        <h2>OO web apps</h2>
+        <ul>
+            <li>request comes in</li>
+            <li>create objects and read data into them</li>
+            <li>call methods on objects, possibly mutating state</li>
+            <li>make objects save changes</li>
+            <li>render HTML from the objects</li>
+            <li>Throw away the objects</li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>But is it actually OO?</h2>
+        <ul>
+            <li>ORM - objects encapsulating data</li>
+            <li>MVC - reacting to requests, rendering HTML</li>
+            <li>Utils.java</li>
+            <li>users_helper.rb</li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>Computational models</h2>
+        <img src="computational_models.png"/>
+    </article>
+
+    <article>
+        <h2>What is Functional Programming?</h2>
+        <ul>
+            <li>f(x) = y</li>
+            <li>Mathematical vs data transformation</li>
+        </ul>
+        <pre>
+(range 3) => [0 1 2]
+3(map inc (range 3)) => [1 2 3]</pre>
+        <pre>find . -name '*.txt' | xargs cat | grep 'ERROR' | sort | uniq -c</pre>
+    </article>
+
+    <!-- examples -->
+
     <article>
         <h2>Data access</h2>
         <pre title="clojure.java.jdbc">(def db "postgresql://localhost:5432/test_db")
@@ -143,6 +178,7 @@
     </article>
 </section>
 
+<script src='../lib/html5slides/slides.js'></script>
 <script src="../lib/revealjs/lib/highlight.js"></script>
 <script>
     hljs.initHighlightingOnLoad();
