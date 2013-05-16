@@ -15,7 +15,7 @@
 
     <article>
         <h1>
-            Varför objektorinterar vi egentligen?
+            Varför objektorienterar vi egentligen?
         </h1>
         <p>
             <br>
@@ -32,6 +32,7 @@
     <article>
         <h2>Me</h2>
         <ul>
+            <li>Valtechie since 2007</li>
             <li>Coding my way through the last 28 years or so</li>
             <li>ASM, C, C++, Pascal, Scheme, Perl, Java, Ruby, Python, Scala, Clojure...</li>
             <li>Architecture</li>
@@ -40,28 +41,6 @@
     </article>
 
     <article>
-        <pre>
-* Hur mycket av mängden kod vi har löser problemet?
-* Formal vs informal (kodstandarder, patterns, etc)
-  * Strategy, template method, dependency injection
-  * unix pipes / map - reduce (många barn har kärt namn)
-
-
-struktur:
-  5. Desktop app OO vettigt
-  6. Jämförelse elektronik, krets, sätta oscilloskopet vid nästa kopplingspunkt (jmfr inuti objektet)
-  99. "Eat shit fibonacci"
-
-motargument:
-  1. Vi har ju utvecklare som kan objektorientering, det är bättre att bara göra det vi kan.
-  2. Det är omöjligt att lära sig funktionell programmering
-  3. Funktionell programmering är bara för att räkna ut fibonacci-tal
-        </pre>
-    </article>
-
-    <!-- webapps intrinsic-->
-    <article>
-        <!-- Breaking and creating abstractions, -->
         <h1>Web appplications</h1>
     </article>
 
@@ -73,8 +52,6 @@ motargument:
     </article>
 
     <article>
-        <h2>The code</h2>
-        <br/>
         <div class="c64">
             <div class="bg-type1">
                 <div class="bg-type2 basicscreen font-type1 text-space">
@@ -105,21 +82,25 @@ motargument:
     </article>
 
     <article>
-        <!-- Lambda, turing, liskov, -->
-        <h2>Abstractions - Church vs. Turing</h2>
+        <!-- Lambda, turing, liskov ...  abstracting what vs how, Formal vs informal (kodstandarder, patterns, etc) -->
+        <h2>Church vs. Turing</h2>
         <img src="computational_models.png" height="80%"/>
         <p>&copy; Jessica Kerr - http://http://blog.jessitron.com/</p>
     </article>
 
-    <!-- oo webapps -->
     <article>
-        <h2>OO web apps</h2>
+        <h1>OO Web appplications</h1>
+    </article>
+
+    <article>
+        <h2>Typical implementation</h2>
         <ul>
-            <li>request comes in</li>
-            <li>create objects and read data into them</li>
-            <li>call methods on objects, possibly mutating state</li>
-            <li>make objects save changes</li>
-            <li>render HTML from the objects</li>
+            <li>Receive request</li>
+            <li>Create objects and read data into them</li>
+            <li>Call methods on objects, mutating state</li>
+            <li>Fetch changes from objects</li>
+            <li>Save</li>
+            <li>Render HTML from the objects</li>
             <li>Throw away the objects</li>
         </ul>
     </article>
@@ -135,6 +116,19 @@ motargument:
     </article>
 
     <article>
+        <h2>Intrinsic or incidental?</h2>
+        <ul>
+            <li>MVC</li>
+            <li>ORM</li>
+            <li>OO</li>
+        </ul>
+    </article>
+
+    <article>
+        <h1>What about FP?</h1>
+    </article>
+
+    <article>
         <h2>What is Functional Programming?</h2>
         <ul>
             <li>f(x) = y</li>
@@ -147,11 +141,34 @@ motargument:
     </article>
 
     <article>
-        <h2>Functional web apps</h2>
-        ?
+        <h2>What happens to common patterns?</h2>
+        <ul>
+            <li>Strategy</li>
+            <li>Template method</li>
+            <li>Dependency injection</li>
+        </ul>
+        <ul>
+            <li>Map - reduce</li>
+        </ul>
+
     </article>
 
-    <!-- examples -->
+    <article>
+        <h2>Functional web apps</h2>
+        <ul>
+            <li>read data (request, database, integration)</li>
+            <li>save changed data</li>
+            <li>transform to html</li>
+        </ul>
+        <ul>
+            <li>data is data</li>
+        </ul>
+    </article>
+
+
+    <article>
+        <h1>Code samples</h1>
+    </article>
 
     <article>
         <h2>Data access</h2>
@@ -185,8 +202,8 @@ motargument:
         <h2>Transform to HTML</h2>
         <pre>
 (html [:ul
-   (for [x (range 1 4)]
-     [:li x])])
+    (for [x (range 1 4)]
+        [:li x])])
 => "&lt;ul&gt;&lt;li&gt;1&lt;/li&gt;&lt;li&gt;2&lt;/li&gt;&lt;li&gt;3&lt;/li&gt;&lt;/ul&gt;"
         </pre>
     </article>
@@ -205,22 +222,47 @@ motargument:
         </pre>
         <pre>
 (html/deftemplate index "template1.html" [input]
-  [:p#message] (html/content (:message input)))
-(index {:message "Hello world!"})
+    [:p#message] (html/content (:message input)))
+    (index {:message "Hello world!"})
         </pre>
     </article>
+
+    <article>
+        <h2>Routing</h2>
+        <pre>
+(defroutes app
+    (GET "/user/:id" [id] (user-page id))
+    (route/not-found (render-404))
+        </pre>
+    </article>
+
     <article>
         <h2>Tests</h2>
         <pre>
 (fact "parse line gives empty vector on bad line"
-  (parse-line "") => {}
-  (parse-line " ") => {}
-  (parse-line " put") => {}
-  (parse-line "\n") => {})
+    (parse-line "") => {}
+    (parse-line " ") => {}
+    (parse-line " put") => {}
+    (parse-line "\n") => {})
         </pre>
     </article>
     <article>
-        <h2>FP &ne; Fibonacci</h2>
+        <!-- kända datatyper i funktionsanropen, vs. gömt i objekten -->
+        <h2>Testability</h2>
+        <img src="circuit-board.jpg"/>
+    </article>
+
+    <article>
+        <h2>Learnning FP</h2>
+        <ul>
+            <li>Paradigm shift hard, languages easy</li>
+            <li>Usable knowledge</li>
+            <li>Better reuse</li>
+        </ul>
+    </article>
+
+    <article>
+        <img src="fibonacci.png"/>
     </article>
 </section>
 
