@@ -5,6 +5,7 @@
     <title>Go simple, not easy</title>
     <meta charset='utf-8'>
     <link rel="stylesheet" href="../lib/html5slides/valtech.css"/>
+    <link rel="stylesheet" href="../lib/c64.css"/>
 </head>
 
 
@@ -35,41 +36,79 @@
             <li>ASM, C, C++, Pascal, Scheme, Perl, Java, Ruby, Python, Scala, Clojure...</li>
             <li>Architecture</li>
             <li>Devops</li>
-            <li>Agile</li>
         </ul>
     </article>
 
     <article>
         <pre>
-            * computational models (lambda, turing, liskov): http://blog.jessitron.com/2013/05/two-models-of-computation-or-why-im.html (Jessica Kerr)
-            * OO web?
-            * Hur mycket av mängden kod vi har löser problemet?
-            * Formal vs informal (kodstandarder, patterns, etc)
-              * Strategy, template method, dependency injection
-              * unix pipes / map - reduce (många barn har kärt namn)
+* Hur mycket av mängden kod vi har löser problemet?
+* Formal vs informal (kodstandarder, patterns, etc)
+  * Strategy, template method, dependency injection
+  * unix pipes / map - reduce (många barn har kärt namn)
 
 
-            struktur:
-              5. Desktop app OO vettigt
-              6. Jämförelse elektronik, krets, sätta oscilloskopet vid nästa kopplingspunkt (jmfr inuti objektet)
-              99. "Eat shit fibonacci"
+struktur:
+  5. Desktop app OO vettigt
+  6. Jämförelse elektronik, krets, sätta oscilloskopet vid nästa kopplingspunkt (jmfr inuti objektet)
+  99. "Eat shit fibonacci"
 
-            motargument:
-              1. Vi har ju utvecklare som kan objektorientering, det är bättre att bara göra det vi kan.
-              2. Det är omöjligt att lära sig funktionell programmering
-              3. Funktionell programmering är bara för att räkna ut fibonacci-tal
+motargument:
+  1. Vi har ju utvecklare som kan objektorientering, det är bättre att bara göra det vi kan.
+  2. Det är omöjligt att lära sig funktionell programmering
+  3. Funktionell programmering är bara för att räkna ut fibonacci-tal
         </pre>
     </article>
 
     <!-- webapps intrinsic-->
     <article>
-        <h2>What's a web app anyway?</h2>
-        <img src="webapp_as_a_filter.svg"/>
+        <!-- Breaking and creating abstractions, -->
+        <h1>Web appplications</h1>
     </article>
+
+    <article>
+        <h2>What's a web app anyway?</h2>
+        <br/>
+        <br/>
+        <img src="webapp_as_a_filter.svg" height="60%"/>
+    </article>
+
     <article>
         <h2>The code</h2>
-        <h3>Should be C64 screenshot</h3>
-        <img src="all_webapps.svg"/>
+        <br/>
+        <div class="c64">
+            <div class="bg-type1">
+                <div class="bg-type2 basicscreen font-type1 text-space">
+                    <div class="txt-header">
+                        <ul class="txt-header-list">
+                            <li>**** COMMODORE 64 BASIC V2 ****</li>
+                            <li>64K RAM SYSTEM 38911 BASIC BYTES FREE</li>
+                        </ul>
+                        READY.<br>
+                        <br>
+                        10 LOAD "DATA"<br>
+                        20 TRANSFORM "DATA"<br>
+                        30 IF X="DONE" THEN 50: END<br>
+                        40 GOTO 10<br>
+                        50 SAVE "DATA"<br>
+                        60 OUTPUT "HTML"<br>
+
+                    </div>
+                    <img src="../lib/prompt.gif">
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article>
+        <!-- Breaking and creating abstractions, -->
+        <h1>Abstractions</h1>
+    </article>
+
+    <article>
+        <!-- Lambda, turing, liskov, -->
+        <h2>Abstractions - Church vs. Turing</h2>
+        <img src="computational_models.png" height="80%"/>
+        <p>&copy; Jessica Kerr - http://http://blog.jessitron.com/</p>
     </article>
 
     <!-- oo webapps -->
@@ -89,15 +128,10 @@
         <h2>But is it actually OO?</h2>
         <ul>
             <li>ORM - objects encapsulating data</li>
-            <li>MVC - reacting to requests, rendering HTML</li>
+            <li>"MVC" - reacting to requests, rendering HTML</li>
             <li>Utils.java</li>
             <li>users_helper.rb</li>
         </ul>
-    </article>
-
-    <article>
-        <h2>Computational models / Abstractions</h2>
-        <img src="computational_models.png"/>
     </article>
 
     <article>
@@ -108,8 +142,13 @@
         </ul>
         <pre>
 (range 3) => [0 1 2]
-3(map inc (range 3)) => [1 2 3]</pre>
+(map inc (range 3)) => [1 2 3]</pre>
         <pre>find . -name '*.txt' | xargs cat | grep 'ERROR' | sort | uniq -c</pre>
+    </article>
+
+    <article>
+        <h2>Functional web apps</h2>
+        ?
     </article>
 
     <!-- examples -->
@@ -135,8 +174,9 @@
     <article>
         <h2>Integrations</h2>
         <pre>
-(json/parse-string
-    (slurp "http://www.debaser.se/debaser/api/?format=json..."))
+(def url "http://www.debaser.se/debaser/api/?format=json...")
+
+(-> url slurp json/parse-string)
 
 => [{"EventId" "3435" "EventDate" "2010-01-01" ...} ..]
         </pre>
@@ -147,7 +187,7 @@
 (html [:ul
    (for [x (range 1 4)]
      [:li x])])
-"&lt;ul&gt;&lt;li&gt;1&lt;/li&gt;&lt;li&gt;2&lt;/li&gt;&lt;li&gt;3&lt;/li&gt;&lt;/ul&gt;"
+=> "&lt;ul&gt;&lt;li&gt;1&lt;/li&gt;&lt;li&gt;2&lt;/li&gt;&lt;li&gt;3&lt;/li&gt;&lt;/ul&gt;"
         </pre>
     </article>
     <article>
