@@ -136,19 +136,23 @@
         </ul>
         <pre>
 (range 3) => [0 1 2]
-(map inc (range 3)) => [1 2 3]</pre>
+(map inc [0 1 2]) => [1 2 3]
+</pre>
         <pre>find . -name '*.txt' | xargs cat | grep 'ERROR' | sort | uniq -c</pre>
     </article>
 
     <article>
-        <h2>What happens to common patterns?</h2>
+        <h2>What happens to OO patterns?</h2>
         <ul>
             <li>Strategy</li>
             <li>Template method</li>
             <li>Dependency injection</li>
         </ul>
+        <br/>
+        <h3>FP:</h3>
         <ul>
-            <li>Map - reduce</li>
+            <li>Formal</li>
+            <li>Map & reduce</li>
         </ul>
 
     </article>
@@ -157,6 +161,7 @@
         <h2>Functional web apps</h2>
         <ul>
             <li>read data (request, database, integration)</li>
+            <li>transform data</li>
             <li>save changed data</li>
             <li>transform to html</li>
         </ul>
@@ -221,9 +226,10 @@
 &lt;/html&gt;
         </pre>
         <pre>
-(html/deftemplate index "template1.html" [input]
-    [:p#message] (html/content (:message input)))
-    (index {:message "Hello world!"})
+(deftemplate index "template.html" [mess]
+    [:p#message] mess)
+
+(index "Hello world!")
         </pre>
     </article>
 
@@ -256,13 +262,14 @@
         <h2>Learnning FP</h2>
         <ul>
             <li>Paradigm shift hard, languages easy</li>
+            <li>Think in transformations</li>
             <li>Usable knowledge</li>
             <li>Better reuse</li>
         </ul>
     </article>
 
     <article style="text-align: center; vertical-align: middle">
-        <h2>It's about data transformation</h2>
+        <h2>FP is about web apps!</h2>
         <br/>
         <img src="fibonacci.jpeg"/>
     </article>
