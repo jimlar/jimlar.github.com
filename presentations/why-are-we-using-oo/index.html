@@ -25,7 +25,7 @@
 
     <article>
         <h1>
-            OO is <u>not</u> the natural paradigm for the web!
+            Web sites are <u>not</u> about objects!
         </h1>
     </article>
 
@@ -34,25 +34,62 @@
         <ul>
             <li>Valtechie since 2007</li>
             <li>Coding my way through the last 28 years or so</li>
-            <li>ASM, C, C++, Pascal, Scheme, Perl, Java, Ruby, Python, Scala, Clojure...</li>
+            <li>ASM, C, C++, Pascal, Scheme, Perl, Java, Ruby, Python, Scala, Clojure, Javascript</li>
             <li>Architecture</li>
-            <li>Devops</li>
         </ul>
     </article>
 
     <article>
-        <h1>Web appplications</h1>
+        <h1>History made us do it</h1>
     </article>
 
     <article>
-        <h2>What's a web app anyway?</h2>
-        <br/>
-        <br/>
-        <img src="webapp_as_a_filter.svg" height="60%"/>
+        <h2>Abstracting Computation</h2>
+
+        <table>
+            <tr>
+                <td style="border: none">
+                    <img src="alonzo_church.jpg" height="220"/><br/>
+                    Alonzo Church<br/>
+                    - Lamda calculus
+                </td>
+                <td style="border: none">
+                    <img src="alan_turing.jpg" height="220"/><br/>
+                    Alan Turing<br/>
+                    - Turing machine
+                </td>
+            </tr>
+        </table>
     </article>
 
     <article>
-        <div class="c64">
+        <h2>Engineers</h2>
+
+        <table>
+            <tr>
+                <td style="border: none">
+                    <img src="john_mccarthy.jpg" height="220"/><br/>
+                    John McCarthy<br/>
+                    - LISP
+                </td>
+                <td style="border: none">
+                    <img src="john_von_neumann.gif" height="220"/><br/>
+                    John von Neumann<br/>
+                    - Von Neumann Architecture
+                </td>
+            </tr>
+        </table>
+    </article>
+
+    <article>
+        <!-- Lambda, turing, liskov ...  abstracting what vs how, Formal vs informal (kodstandarder, patterns, etc) -->
+        <img src="computational-models.svg" height="600"/>
+    </article>
+
+    <article>
+        <h2>The Web Application</h2>
+        <br/>
+        <div class="c64 build">
             <div class="bg-type1">
                 <div class="bg-type2 basicscreen font-type1 text-space">
                     <div class="txt-header">
@@ -77,124 +114,50 @@
     </article>
 
     <article>
-        <!-- Breaking and creating abstractions, -->
-        <h1>Abstractions</h1>
+        <h1>Functional Programming</h1>
     </article>
 
     <article>
-        <!-- Lambda, turing, liskov ...  abstracting what vs how, Formal vs informal (kodstandarder, patterns, etc) -->
-        <h2>Church vs. Turing</h2>
-        <img src="computational_models.png" height="80%"/>
-        <p>&copy; Jessica Kerr - http://http://blog.jessitron.com/</p>
-    </article>
-
-    <article>
-        <h1>OO Web appplications</h1>
-    </article>
-
-    <article>
-        <h2>Typical implementation</h2>
-        <ul>
-            <li>Receive request</li>
-            <li>Create objects and read data into them</li>
-            <li>Call methods on objects, mutating state</li>
-            <li>Fetch changes from objects</li>
-            <li>Save</li>
-            <li>Render HTML from the objects</li>
-            <li>Throw away the objects</li>
-        </ul>
-    </article>
-
-    <article>
-        <h2>But is it actually OO?</h2>
-        <ul>
-            <li>ORM - objects encapsulating data</li>
-            <li>"MVC" - reacting to requests, rendering HTML</li>
-            <li>Utils.java</li>
-            <li>users_helper.rb</li>
-        </ul>
-    </article>
-
-    <article>
-        <h2>Intrinsic or incidental?</h2>
-        <ul>
-            <li>MVC</li>
-            <li>ORM</li>
-            <li>OO</li>
-        </ul>
-    </article>
-
-    <article>
-        <h1>What about FP?</h1>
-    </article>
-
-    <article>
-        <h2>What is Functional Programming?</h2>
-        <ul>
+        <h2>What is it?</h2>
+        <ul class="build">
             <li>f(x) = y</li>
-            <li>Mathematical vs data transformation</li>
+            <li>Data transformation</li>
         </ul>
-        <pre>
-(range 3) => [0 1 2]
-(map inc [0 1 2]) => [1 2 3]
-</pre>
-        <pre>find . -name '*.txt' | xargs cat | grep 'ERROR' | sort | uniq -c</pre>
+        <div class="build">
+            <pre>(range 3) => [0 1 2]</pre>
+            <pre>(map inc (range 3)) => [1 2 3]</pre>
+            <pre>find . -name '*.txt' | xargs cat | grep 'ERROR' | sort | uniq -c</pre>
+        </div>
     </article>
 
     <article>
-        <h2>What happens to OO patterns?</h2>
-        <ul>
-            <li>Strategy</li>
-            <li>Template method</li>
-            <li>Dependency injection</li>
-        </ul>
-        <br/>
-        <h3>FP:</h3>
-        <ul>
-            <li>Formal</li>
-            <li>Map & reduce</li>
-        </ul>
-
-    </article>
-
-    <article>
-        <h2>Functional web apps</h2>
-        <ul>
+        <h2>Functional web application</h2>
+        <ul class="build">
             <li>read data (request, database, integration)</li>
             <li>transform data</li>
             <li>save changed data</li>
             <li>transform to html</li>
-        </ul>
-        <ul>
-            <li>data is data</li>
+            <li>output response</li>
         </ul>
     </article>
 
 
     <article>
-        <h1>Code samples</h1>
+        <h1>The Code</h1>
     </article>
 
     <article>
-        <h2>Data access</h2>
+        <h2>Loading RDBMS data</h2>
         <pre title="clojure.java.jdbc">(def db "postgresql://localhost:5432/test_db")
 (query db
     (select * :persons
         (order-by :name)))
 
 => [{:name "Irma"} {:name "Isabel"} {:name "Lova"} ..]</pre>
-        <pre title="sqlkorma">
-(defentity address
-    (table-fields :street :city :zip))
-
-(defentity users
-    (has-one address))
-
-(select users
-    (with address))</pre>
     </article>
+
     <article>
-        <h2>Integrations</h2>
+        <h2>Integration with an HTTP API</h2>
         <pre>
 (def url "http://www.debaser.se/debaser/api/?format=json...")
 
@@ -203,17 +166,16 @@
 => [{"EventId" "3435" "EventDate" "2010-01-01" ...} ..]
         </pre>
     </article>
+
     <article>
-        <h2>Transform to HTML</h2>
-        <pre>
-(html [:ul
-    (for [x (range 1 4)]
-        [:li x])])
-=> "&lt;ul&gt;&lt;li&gt;1&lt;/li&gt;&lt;li&gt;2&lt;/li&gt;&lt;li&gt;3&lt;/li&gt;&lt;/ul&gt;"
-        </pre>
+        <!-- kända datatyper i funktionsanropen, vs. gömt i objekten -->
+        <h2>A Word On Testability</h2>
+        <br/>
+        <img src="circuit-board.jpg"/>
     </article>
+
     <article>
-        <h2>Transform to HTML - with template</h2>
+        <h2>Creating HTML</h2>
         <pre>
 &lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
     &lt;head&gt;
@@ -245,33 +207,18 @@
     <article>
         <h2>Tests</h2>
         <pre>
-(fact "parse line gives empty vector on bad line"
+(fact "parse-line gives empty vector on bad line"
     (parse-line "") => {}
     (parse-line " ") => {}
     (parse-line " put") => {}
     (parse-line "\n") => {})
         </pre>
     </article>
-    <article>
-        <!-- kända datatyper i funktionsanropen, vs. gömt i objekten -->
-        <h2>Testability</h2>
-        <img src="circuit-board.jpg"/>
-    </article>
-
-    <article>
-        <h2>Learnning FP</h2>
-        <ul>
-            <li>Paradigm shift hard, languages easy</li>
-            <li>Think in transformations</li>
-            <li>Usable knowledge</li>
-            <li>Better reuse</li>
-        </ul>
-    </article>
 
     <article style="text-align: center; vertical-align: middle">
-        <h2>FP is about web apps!</h2>
         <br/>
         <img src="fibonacci.jpeg"/>
+        <p>Leonardo Fibonacci</p>
     </article>
 </section>
 
