@@ -141,29 +141,28 @@
         </ul>
     </article>
 
-
     <article>
         <h1>The Code</h1>
     </article>
 
     <article>
         <h2>Loading RDBMS data</h2>
-        <pre title="clojure.java.jdbc">(def db "postgresql://localhost:5432/test_db")
+        <pre title="clojure.java.jdbc">(def db "postgresql://localhost:5432/food")
 (query db
-    (select * :persons
+    (select * :products
         (order-by :name)))
 
-=> [{:name "Irma"} {:name "Isabel"} {:name "Lova"} ..]</pre>
+=> [{:id "basil" :name "Basil"} {:id "cucumber" :name "Cucumber"}]</pre>
     </article>
 
     <article>
         <h2>Integration with an HTTP API</h2>
         <pre>
-(def url "http://www.debaser.se/debaser/api/?format=json...")
+(def url "http://api.medveten-mat.se/stock")
 
 (-> url slurp json/parse-string)
 
-=> [{"EventId" "3435" "EventDate" "2010-01-01" ...} ..]
+=> [{"basil" "15" "cucumber" "3" ...} ..]
         </pre>
     </article>
 
@@ -177,31 +176,47 @@
     <article>
         <h2>Creating HTML</h2>
         <pre>
-&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
-    &lt;head&gt;
-        &lt;title&gt;Enlive Tutorial!&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;p&gt;Hello world!&lt;/p&gt;
-        &lt;p id="message"&gt;A message could go here.&lt;/p&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
+(deftemplate product-template "product.html" [name stock]
+    [:p#name] name
+    [:p#stock] stock)
+
+(product-template "Tomato" 7)
         </pre>
         <pre>
-(deftemplate index "template.html" [mess]
-    [:p#message] mess)
-
-(index "Hello world!")
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Medveten Mat&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p id="name"&gt;Cucumber&lt;/p&gt;
+        &lt;p id="stock"&gt;15 in stock&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
         </pre>
     </article>
 
     <article>
-        <h2>Routing</h2>
+        <h2>Full application</h2>
+        <small>
+
         <pre>
+(defn stock [id]
+    (get (-> url slurp json/parse-string) id 0))
+
+(deftemplate product-template "product.html" [name stock]
+    [:p#name] name
+    [:p#stock] stock)
+
+(defn product-page [id]
+    (query db
+       (select * :product (where {:id id}))
+       :row-fn #(product-template (:name %) (stock id))))
+
 (defroutes app
-    (GET "/user/:id" [id] (user-page id))
-    (route/not-found (render-404))
+    (GET "/products/:id" [id] (product-page id))
+    (not-found (render-404)))
         </pre>
+        </small>
     </article>
 
     <article>
@@ -220,6 +235,7 @@
         <img src="fibonacci.jpeg"/>
         <p>Leonardo Fibonacci</p>
     </article>
+
 </section>
 
 <script src='../lib/html5slides/slides.js'></script>
