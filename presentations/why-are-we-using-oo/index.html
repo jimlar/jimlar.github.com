@@ -87,6 +87,23 @@
     </article>
 
     <article>
+        <h1>Functional Programming</h1>
+    </article>
+
+    <article>
+        <h2>What is it?</h2>
+        <ul class="build">
+            <li>f(x) = y</li>
+            <li>Data transformation</li>
+        </ul>
+        <div class="build">
+            <pre>(range 3) => [0 1 2]</pre>
+            <pre>(map inc [0 1 2]) => [1 2 3]</pre>
+            <pre>find . -name '*.txt' | xargs cat | grep 'ERROR' | sort | uniq -c</pre>
+        </div>
+    </article>
+
+    <article>
         <h2>The Web Application</h2>
         <br/>
         <div class="c64 build">
@@ -114,23 +131,6 @@
     </article>
 
     <article>
-        <h1>Functional Programming</h1>
-    </article>
-
-    <article>
-        <h2>What is it?</h2>
-        <ul class="build">
-            <li>f(x) = y</li>
-            <li>Data transformation</li>
-        </ul>
-        <div class="build">
-            <pre>(range 3) => [0 1 2]</pre>
-            <pre>(map inc (range 3)) => [1 2 3]</pre>
-            <pre>find . -name '*.txt' | xargs cat | grep 'ERROR' | sort | uniq -c</pre>
-        </div>
-    </article>
-
-    <article>
         <h2>Functional web application</h2>
         <ul class="build">
             <li>read data (request, database, integration)</li>
@@ -149,8 +149,7 @@
         <h2>Loading RDBMS data</h2>
         <pre title="clojure.java.jdbc">(def db "postgresql://localhost:5432/food")
 (query db
-    (select * :products
-        (order-by :name)))
+    (select * :products (order-by :name)))
 
 => [{:id "basil" :name "Basil"} {:id "cucumber" :name "Cucumber"}]</pre>
     </article>
@@ -162,7 +161,7 @@
 
 (-> url slurp json/parse-string)
 
-=> [{"basil" "15" "cucumber" "3" ...} ..]
+=> {"basil" 15 "cucumber" 3 ...}
         </pre>
     </article>
 
@@ -199,9 +198,11 @@
         <h2>Full application</h2>
         <small>
 
-        <pre>
+        <pre>(def db "postgresql://localhost:5432/food")
+(def url "http://api.medveten-mat.se/stock")
+
 (defn stock [id]
-    (get (-> url slurp json/parse-string) id 0))
+    (get (-> url slurp json/parse-string) id))
 
 (deftemplate product-template "product.html" [name stock]
     [:p#name] name
@@ -214,8 +215,7 @@
 
 (defroutes app
     (GET "/products/:id" [id] (product-page id))
-    (not-found (render-404)))
-        </pre>
+    (not-found (render-404)))</pre>
         </small>
     </article>
 
